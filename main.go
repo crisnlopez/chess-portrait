@@ -1,7 +1,15 @@
 package main
 
-import "log"
+import (
+	"log"
+
+	"github.com/crisnlopez/chess-portrait/gameparser"
+)
+
+const inputPath = "./input/sample.pgn"
 
 func main() {
-	log.Fatal("initial scaffolding")
+	if err := gameparser.ParseFile(inputPath); err != nil {
+		log.Fatal(err.Error())
+	}
 }
