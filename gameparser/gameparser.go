@@ -39,6 +39,7 @@ func ParseFile(path string) error {
 	}
 
 	yellow := color.RGBA{255, 255, 0, 1}
+	//TODO: marked position is not dynamic, but it should be
 	mark := image.MarkSquares(yellow, chess.D2, chess.D4)
 	if err := image.SVG(writeFile, pos.Board(), mark); err != nil {
 		return err
