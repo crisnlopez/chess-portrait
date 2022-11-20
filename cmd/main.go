@@ -31,9 +31,13 @@ func main() {
 		log.Fatal(err)
 	}
 
-	fenStr := lastPosition.String()
+	lasPositionData, err := lastPosition.MarshalText()
+	if err != nil {
+		panic(err)
+	}
+
 	var pos chess.Position
-	pos.UnmarshalText([]byte(fenStr))
+	pos.UnmarshalText(lasPositionData)
 	if err := image.SVG(output, pos.Board()); err != nil {
 		log.Fatal(err)
 	}
