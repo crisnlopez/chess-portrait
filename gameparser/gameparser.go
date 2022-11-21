@@ -25,23 +25,18 @@ func ParseFile(path string) error {
 	moveHistory := game.MoveHistory()
 
 	lastMovement := moveHistory[len(moveHistory)-1]
-	game.Move(lastMovement.Move)
-	pos := &chess.Position{}
-
-	if err := pos.UnmarshalText([]byte(game.FEN())); err != nil {
-		return err
-	}
 
 	// write board SVG to file
-	writeFile, err := os.OpenFile("output.svg", os.O_CREATE|os.O_WRONLY|os.O_APPEND, os.ModePerm)
+	writeFile, err := os.Create("output.svg")
 	if err != nil {
 		return err
 	}
+	defer writeFile.Close()
 
 	yellow := color.RGBA{255, 255, 0, 1}
 	//TODO: marked position is not dynamic, but it should be
-	mark := image.MarkSquares(yellow, chess.D2, chess.D4)
-	if err := image.SVG(writeFile, pos.Board(), mark); err != nil {
+	mark := image.MarkSquares(yellow, lastMovement.Move.S1(), lastMovement.Move.S2())
+	if err := image.SVG(writeFile, game.Position().Board(), mark); err != nil {
 		return err
 	}
 
